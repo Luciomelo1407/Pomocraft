@@ -1,17 +1,17 @@
 import tkinter as tk
-import customtkinter as ctk
 
-root = ctk.CTk()
-root.geometry("400x680")
+import tkinter as tk
 
-imagemBG = tk.PhotoImage(file="BGteste2.png")
-back = tk.Frame(root,width=400,height=680)
-bgimsge = tk.Label(back,image=imagemBG)
-bgimsge.place(x=0,y=0)
-back.place(x=0,y=0)
-imageTitle = tk.PhotoImage(file='titulo2.png')
-title = tk.Label(back,image=imageTitle)
-title.place(x=0,y=0)
+def label_click(event):
+    label.config(text="Label foi clicada!")
 
+root = tk.Tk()
+root.geometry('300x100')
+
+label = tk.Label(root, text='Clique na label!')
+label.pack(pady=20)
+
+# Associe o evento de clique do mouse (Button-1) a label_click
+label.bind('<Button-1>', label_click)
 
 root.mainloop()
