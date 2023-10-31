@@ -1,3 +1,5 @@
 # Pomocraft
-É só baixar tudo certinho e abrir o executável
-You just need to download and open the main.exe
+
+Instalador para windows: https://drive.google.com/file/d/1_SIF6kmqemBEgSovWodzeBccUHcBzug-/view?usp=sharing
+
+
