@@ -12,11 +12,12 @@ class Pomodoro(customtkinter.CTk):
     def __init__(self, fg_color: Optional[Union[str, Tuple[str, str]]] = None, **kwargs):
         super().__init__(fg_color, **kwargs)
         #atributos de tempo
+        self.study = True;
         self.running = False
         self.secStudy = 0
         self.minStudy = 25
         self.secRelax = 0
-        self.minRelax = 30
+        self.minRelax = 5
         self.secRunning = self.secStudy
         self.minRunning = self.minStudy
         #window screen position
@@ -53,9 +54,9 @@ class Pomodoro(customtkinter.CTk):
         self.settingsButton = ctk.CTkLabel(self,image=self.settingsButtonImage, text=' ', width=25, height=25)
         self.startPause = ActionButtons(self,text="Start", command=self.start)
         self.startPause.place(x=50,y=400)
-        self.resetB = ActionButtons(self,text="Reset")
+        self.resetB = ActionButtons(self,text="Reset",command=self.reset)
         self.resetB.place(x=220,y=400)
-        self.skipBTT = ActionButtons(self,text="Skip")
+        self.skipBTT = ActionButtons(self,text="Skip", command=self.skip)
         self.skipBTT.place(x=125,y=455)
 
         self.settingsButton.bind('<Enter>')
@@ -65,23 +66,59 @@ class Pomodoro(customtkinter.CTk):
 
         #headder
         headder = Headder(self,border_width=0,bg_color="transparent",fg_color="transparent",corner_radius=10)
- 
+    
+    def reset(self):
+        self.running = False
+        self.startPause.configure(text='Start',command=self.start)
+        if self.study:
+            self.secLabel.configure(text=TimeTransform().transform(self.secStudy))
+            self.minLabel.configure(text=TimeTransform().transform(self.minStudy))
+        else:
+            self.secLabel.configure(text=TimeTransform().transform(self.secRelax))
+            self.minLabel.configure(text=TimeTransform().transform(self.minRelax))
+
+    def skip(self):
+        if self.study:
+            self.study = False
+            self.secLabel.configure(text=TimeTransform().transform(self.secRelax))
+            self.minLabel.configure(text=TimeTransform().transform(self.minRelax))
+        else:
+            self.study = True
+            self.secLabel.configure(text=TimeTransform().transform(self.secStudy))
+            self.minLabel.configure(text=TimeTransform().transform(self.minStudy))
+
+        self.running = False
+        self.startPause.configure(text='Start',command=self.start)
+        
+
     def pause(self):
         self.running = False
         self.startPause.configure(text='Continue')
+        self.startPause.configure(command=self.continueTick)
         return self.timetick()
-
-    def start(self):
+    
+    def continueTick(self):
         if self.running:
             return self.pause()
+        else:
+            self.startPause.configure(text='Pause')
+            self.running = True
+            return self.timetick()
+
+    def start(self):
+        print("Apertou")
+        if self.study:
+            self.secRunning = self.secStudy
+            self.minRunning = self.minStudy
+        else:
+            self.secRunning = self.secRelax
+            self.minRunning = self.minRelax
         self.running = True
         self.startPause.configure(text='Pause')
+        self.startPause.configure(command=self.continueTick)
         return self.timetick()
         
     
-
-
-
     def timetick(self):
         if self.running:
             if not self.secRunning:
@@ -93,3 +130,4 @@ class Pomodoro(customtkinter.CTk):
             self.minLabel.configure(text=TimeTransform().transform(self.minRunning))
             print(self.secRunning,self.minRunning)
             self.after(1000, self.timetick)
+        return
