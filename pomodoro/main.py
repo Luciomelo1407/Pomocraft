@@ -1,5 +1,5 @@
-import customtkinter
-from Pomodoro import *
+# from Pomodoro import *
+from RefatoredPomodoro import *
 
 app = Pomodoro()
 app.mainloop()

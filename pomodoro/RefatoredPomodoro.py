@@ -6,6 +6,7 @@ from Headder import *
 from ActionButtons import *
 from TimerLabel import *
 from TimeTransform import *
+from PIL import Image, ImageTk
 import pygame
 
 class Pomodoro(customtkinter.CTk):
@@ -32,13 +33,10 @@ class Pomodoro(customtkinter.CTk):
         self.geometry("%dx%d+%d+%d" % (largura,altura,posix,posiy))
         self.title('Pomocraft')
         self.iconbitmap('images\\icone.ico')
-        #setup Button
-        self.settingsButtonImage = tk.PhotoImage(file="images/settingsButton.png", master=self)
-        self.settingsButtonImage =self.settingsButtonImage.subsample(1,1)
-        self.settingsButtonImageHoverd = tk.PhotoImage(file="images\\settingsButtonHoverd.png", master=self)
-        self.settingsButtonImageHoverd =self.settingsButtonImageHoverd.subsample(1,1)
+
         #setupBackground
         backGround = BackGroud(self)
+        backGround.place(x=0,y=0)
         
         #setUP clock
         self.relogin = ctk.CTkFrame(self,corner_radius=10)
@@ -51,7 +49,6 @@ class Pomodoro(customtkinter.CTk):
         self.secLabel.place(x=110,y=60)
 
         #botoes
-        self.settingsButton = ctk.CTkLabel(self,image=self.settingsButtonImage, text=' ', width=25, height=25)
         self.startPause = ActionButtons(self,text="Start", command=self.start)
         self.startPause.place(x=50,y=400)
         self.resetB = ActionButtons(self,text="Reset",command=self.reset)
@@ -59,14 +56,31 @@ class Pomodoro(customtkinter.CTk):
         self.skipBTT = ActionButtons(self,text="Skip", command=self.skip)
         self.skipBTT.place(x=125,y=455)
 
-        self.settingsButton.bind('<Enter>')
-        self.settingsButton.bind('<Leave>')
-        self.settingsButton.bind('<Button-1>')
-        self.settingsButton.place(y=650,x=5)
 
+        ##settings
+        self.settingsButtonImage = ctk.CTkImage(Image.open("images\\settingsButton.png"),size=(25,25))
+        self.settingsButtonImageHoverd = ctk.CTkImage(Image.open("images\\settingsButtonHoverd.png"),size=(25,25))
+        self.settingsButton = ctk.CTkLabel(self,image=self.settingsButtonImage, text='', width=25, height=25)
+        self.settingsButton.bind('<Enter>',self.on_enter)
+        self.settingsButton.bind('<Leave>',self.on_leave)
+        self.settingsButton.bind('<Button-1>', self.openSettings)
+        self.settingsButton.place(y=650,x=5)
+        
         #headder
         headder = Headder(self,border_width=0,bg_color="transparent",fg_color="transparent",corner_radius=10)
     
+    def openSettings(self,event):
+        settingsWindow = SettingWindow(self)
+        settingsWindow.mainloop()
+        return
+        
+    
+    def on_enter(self,event):
+        self.settingsButton.configure(image=self.settingsButtonImageHoverd,cursor='hand2')
+
+    def on_leave(self, event):
+        self.settingsButton.configure(image=self.settingsButtonImage)
+
     def reset(self):
         self.running = False
         self.startPause.configure(text='Start',command=self.start)
