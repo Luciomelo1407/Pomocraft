@@ -11,4 +11,4 @@ Página de configurações:
 
 ![image](https://github.com/Luciomelo1407/Pomocraft/assets/115198473/ff7d4f59-db31-4c5c-8834-7158a1573188)
 
-Credito as musicas para o canal bits & hits link para youtube: https://www.youtube.com/watch?v=_3-fYqCFbHQ
+Crédito das musicas para o canal bits & hits link para youtube: https://www.youtube.com/watch?v=_3-fYqCFbHQ
