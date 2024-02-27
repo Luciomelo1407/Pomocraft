@@ -234,6 +234,7 @@ class Pomodoro(customtkinter.CTk):
         mute_unmuteImageHoverd = tk.PhotoImage(file="images\Botao de mute Hoverd.png", master=self)
         mute_unmuteImageMuted = tk.PhotoImage(file="images\Botao de mute Muted.png",master=self)
         mute_unmuteImageHoverdMuted = tk.PhotoImage(file='images\Botao de mute Hoverd Muted.png', master=self)
+
         def on_enter(event):
             global muteflag
             if muteflag:
@@ -287,7 +288,7 @@ class Pomodoro(customtkinter.CTk):
         #! AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
         def tocarMusicaRelax():
-            pygame.mixer.music.load("songs\musics\Alpha.mp3")
+            pygame.mixer.music.load("songs\\musics\\Alpha.mp3")
             pygame.mixer.music.set_volume(1)
             pygame.mixer.music.play(-1)
 
